@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BizForge AI - Generator</title>
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <a href="index.html" class="logo">
+                <div class="logo-icon">B</div>
+                BizForge
+            </a>
+            <div class="nav-actions">
+                <select id="langSelect" onchange="setLanguage(this.value)">
+                    <option value="en">English</option>
+                </select>
+                <div class="theme-toggle">🌙</div>
+            </div>
+        </header>
+
+        <div class="dashboard-container">
+            <div class="tabs">
+                <div class="tab active" onclick="showTab('brand')">Brand</div>
+                <div class="tab" onclick="showTab('logo')">Logo</div>
+                <div class="tab" onclick="showTab('content')">Content</div>
+                <div class="tab" onclick="showTab('design')">Design</div>
+            </div>
+
+            <!-- Tab Contents -->
+            <div id="tab-container">
+                <!-- Brand Generator -->
+                <div id="brand-tab" class="tab-content">
+                    <h2 style="margin-bottom: 1rem;">✨ Brand Names Generator</h2>
+                    <p style="margin-bottom: 2rem; color: rgba(255,255,255,0.7);">Enter keywords and generate creative
+                        brand names</p>
+                    <form hx-post="/api/brand" hx-target="#result" hx-indicator="#loading">
+                        <div class="form-group">
+                            <label>Keywords</label>
+                            <input type="text" name="idea" placeholder="e.g., innovative, affordable">
+                        </div>
+                        <div class="form-group">
+                            <label>Industry</label>
+                            <select name="industry">
+                                <option>Technology</option>
+                                <option>Fashion</option>
+                                <option>Food & Beverage</option>
+                                <option>Health & Wellness</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Brand Tone</label>
+                            <select name="tone">
+                                <option>Professional</option>
+                                <option>Friendly</option>
+                                <option>Energetic</option>
+                                <option>Luxury</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary" style="width: 100%;">Generate Brand Names</button>
+                    </form>
+                </div>
+
+                <!-- Logo Generator -->
+                <div id="logo-tab" class="tab-content" style="display: none;">
+                    <h2 style="margin-bottom: 1rem;">🎨 Logo Generator</h2>
+                    <p style="margin-bottom: 2rem; color: rgba(255,255,255,0.7);">Create AI-powered logo concepts</p>
+                    <form hx-post="/api/logo" hx-target="#result" hx-indicator="#loading">
+                        <div class="form-group">
+                            <label>Brand Name</label>
+                            <input type="text" name="name" placeholder="Your brand name">
+                        </div>
+                        <div class="form-group">
+                            <label>Keywords</label>
+                            <input type="text" name="keywords" placeholder="modern, minimalist, tech">
+                        </div>
+                        <button type="submit" class="btn-primary" style="width: 100%;">Generate Logo & Image</button>
+                    </form>
+                </div>
+
+                <!-- Marketing Content -->
+                <div id="content-tab" class="tab-content" style="display: none;">
+                    <h2 style="margin-bottom: 1rem;">📝 Marketing Content</h2>
+                    <p style="margin-bottom: 2rem; color: rgba(255,255,255,0.7);">Create descriptions, posts, and ads
+                    </p>
+                    <form hx-post="/api/content" hx-target="#result" hx-indicator="#loading">
+                        <div class="form-group">
+                            <label>Brand Description</label>
+                            <textarea name="description" rows="4" placeholder="Describe your brand..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Tone</label>
+                            <select name="tone">
+                                <option>Professional</option>
+                                <option>Friendly</option>
+                                <option>Humorous</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Content Type</label>
+                            <select name="content_type">
+                                <option>Product Description</option>
+                                <option>Social Media Post</option>
+                                <option>Ad Copy</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary" style="width: 100%;">Generate Content</button>
+                    </form>
+                </div>
+
+                <!-- Design System -->
+                <div id="design-tab" class="tab-content" style="display: none;">
+                    <h2 style="margin-bottom: 1rem;">💎 Design System</h2>
+                    <p style="margin-bottom: 2rem; color: rgba(255,255,255,0.7);">Get colors and font recommendations
+                    </p>
+                    <form hx-post="/api/design" hx-target="#result" hx-indicator="#loading">
+                        <div class="form-group">
+                            <label>Brand Idea</label>
+                            <input type="text" name="idea" placeholder="Eco-friendly skincare">
+                        </div>
+                        <button type="submit" class="btn-primary" style="width: 100%;">Generate Design System</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- result area -->
+            <div id="loading" class="htmx-indicator" style="margin-top: 2rem; text-align: center;">Forging your brand
+                identity...</div>
+            <div id="result" class="result-area"></div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            // Find the tab that was clicked or matching name
+            const tabEl = document.querySelector(`[onclick="showTab('${tabName}')"]`);
+            if (tabEl) tabEl.classList.add('active');
+
+            document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+            const contentEl = document.getElementById(tabName + '-tab');
+            if (contentEl) contentEl.style.display = 'block';
+
+            document.getElementById('result').innerHTML = '';
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const tab = urlParams.get('tab');
+        if (tab) {
+            showTab(tab);
+        }
+    </script>
+    <script src="static/i18n.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BizForge AI - Build Your Brand</title>
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <a href="index.html" class="logo">
+                <div class="logo-icon">B</div>
+                BizForge
+            </a>
+            <div class="nav-actions">
+                <select id="langSelect" onchange="setLanguage(this.value)">
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                </select>
+                <div class="theme-toggle">🌙</div>
+            </div>
+        </header>
+
+        <section class="hero">
+            <h1 data-i18n="title">Build Your Brand with AI</h1>
+            <p>Create stunning brand names, logos, marketing content, and complete design systems in seconds.</p>
+            <a href="branding.html" class="btn-primary" data-i18n="get_started">Get Started →</a>
+        </section>
+
+        <section class="feature-grid">
+            <a href="branding.html?tab=brand" class="feature-card">
+                <div class="icon">🎯</div>
+                <h3 data-i18n="brand_names">Brand Names</h3>
+                <p>Generate creative, memorable brand names with AI</p>
+                <span class="explore" data-i18n="explore">Explore →</span>
+            </a>
+            <a href="branding.html?tab=logo" class="feature-card">
+                <div class="icon">🎨</div>
+                <h3 data-i18n="logo_generator">Logo Generator</h3>
+                <p>Get AI-powered logo concepts and images</p>
+                <span class="explore" data-i18n="explore">Explore →</span>
+            </a>
+            <a href="branding.html?tab=content" class="feature-card">
+                <div class="icon">📝</div>
+                <h3 data-i18n="marketing_content">Marketing Content</h3>
+                <p>Create product descriptions and social posts</p>
+                <span class="explore" data-i18n="explore">Explore →</span>
+            </a>
+            <a href="branding.html?tab=design" class="feature-card">
+                <div class="icon">💎</div>
+                <h3 data-i18n="design_system">Design System</h3>
+                <p>Get colors, fonts, and design recommendations</p>
+                <span class="explore" data-i18n="explore">Explore →</span>
+            </a>
+        </section>
+    </div>
+    <script src="static/i18n.js"></script>
+</body>
+
+</html>

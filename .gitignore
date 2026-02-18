@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# FastAPI / Uvicorn
+.pytest_cache/
+
+# Frontend
+frontend/static/generated_logos/logo_*.png
+
+# OS
+.DS_Store
+Thumbs.db
