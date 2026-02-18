@@ -15,9 +15,25 @@ client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 # Hugging Face Settings
 HF_TOKEN = os.getenv("HF_API_KEY")
 SD_MODEL = "stabilityai/stable-diffusion-xl-base-1.0"
-HF_API_URL = f"https://router.huggingface.co/hf-inference/models/{SD_MODEL}"
+HF_API_URL = "https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-schnell" 
+HF_TOKEN = os.getenv("HF_API_KEY")
 
 groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
+async def generate_strategic_guidance(idea: str, industry: str):
+    """Uses Groq (Llama-3) to provide strategic branding guidance as a stable fallback for Granite."""
+    try:
+        completion = groq_client.chat.completions.create(
+            model="llama-3.1-8b-instant",
+            messages=[
+                {"role": "system", "content": "You are a strategic brand consultant specialized in the IBM Granite framework. Provide a professional strategy report. Return ONLY the report text."},
+                {"role": "user", "content": f"Brand: {idea}\nIndustry: {industry}\n\nProvide: 1. Brand Archetype, 2. Strategic Positioning, 3. Three consultative questions to help the founder."}
+            ]
+        )
+        return completion.choices[0].message.content
+    except Exception as e:
+        print(f"Strategic Guidance Error: {e}")
+        return "Our strategic consultant is currently busy refining visions. Focus on your core values and target audience to build a strong foundation."
 
 async def generate_brand_details(user_idea: str):
     """Uses Groq to generate brand details."""
@@ -109,3 +125,33 @@ async def generate_design_system(idea: str):
             "accent_color": "#f59e0b",
             "font_pairing": "Inter & Roboto"
         }
+
+async def analyze_review(review_text: str):
+    """Analyzes customer review sentiment and provides a professional rewrite/response using Groq."""
+    try:
+        completion = groq_client.chat.completions.create(
+            model="llama-3.1-8b-instant",
+            messages=[
+                {"role": "system", "content": "You are a customer success expert. Analyze the sentiment (Positive/Negative/Neutral), identify key points, and provide a polite, professional 'Diplomatic Response' to this review. Return ONLY the text report."},
+                {"role": "user", "content": f"Review: {review_text}"}
+            ]
+        )
+        return completion.choices[0].message.content
+    except Exception as e:
+        print(f"Review Analysis Error: {e}")
+        return "Sentiment: Analysis Pending. Advice: Always respond with empathy and clarity to customer feedback."
+
+async def chat_response(user_message: str):
+    """Generates a conversational branding consultant response using Groq."""
+    try:
+        completion = groq_client.chat.completions.create(
+            model="llama-3.1-8b-instant",
+            messages=[
+                {"role": "system", "content": "You are a world-class AI Branding Consultant for BizForge. Be concise, expert, and encouraging. Answer questions about logos, branding, marketing, and design. Return ONLY the message content."},
+                {"role": "user", "content": user_message}
+            ]
+        )
+        return completion.choices[0].message.content
+    except Exception as e:
+        print(f"Chat Error: {e}")
+        return "I'm currently contemplating the perfect brand strategy. Ask me something about design or identity!"

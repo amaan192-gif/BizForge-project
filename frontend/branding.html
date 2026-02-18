@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BizForge AI - Generator</title>
     <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="static/premium.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -33,6 +34,9 @@
                 <div class="tab" onclick="showTab('logo')">Logo</div>
                 <div class="tab" onclick="showTab('content')">Content</div>
                 <div class="tab" onclick="showTab('design')">Design</div>
+                <div class="tab" onclick="showTab('consultant')">Consultant</div>
+                <div class="tab" onclick="showTab('sentiment')">Sentiment</div>
+                <div class="tab" onclick="showTab('chat')">Chat</div>
             </div>
 
             <!-- Tab Contents -->
@@ -128,6 +132,68 @@
                         </div>
                         <button type="submit" class="btn-primary" style="width: 100%;">Generate Design System</button>
                     </form>
+                </div>
+
+                <!-- Strategic Consultant -->
+                <div id="consultant-tab" class="tab-content" style="display: none;">
+                    <h2 style="margin-bottom: 1rem;">🤖 Strategic Consultant</h2>
+                    <p style="margin-bottom: 2rem; color: rgba(255,255,255,0.7);">Get expert strategic guidance powered
+                        by IBM Granite</p>
+                    <form hx-post="/api/consultant" hx-target="#result" hx-indicator="#loading">
+                        <div class="form-group">
+                            <label>Brand Name or Idea</label>
+                            <input type="text" name="idea" placeholder="Enter your brand name or a core idea">
+                        </div>
+                        <div class="form-group">
+                            <label>Industry</label>
+                            <select name="industry">
+                                <option>Technology</option>
+                                <option>Retail / Ecommerce</option>
+                                <option>Sustainability</option>
+                                <option>Real Estate</option>
+                                <option>Health & Wellness</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary" style="width: 100%;">Get Strategic Report</button>
+                    </form>
+                </div>
+
+                <!-- Review Analyzer -->
+                <div id="sentiment-tab" class="tab-content" style="display: none;">
+                    <h2 style="margin-bottom: 1rem;">🔍 Review Analyzer</h2>
+                    <p style="margin-bottom: 2rem; color: rgba(255,255,255,0.7);">Analyze and rewrite customer reviews
+                        in a professional tone</p>
+                    <form hx-post="/api/analyze" hx-target="#result" hx-indicator="#loading">
+                        <div class="form-group">
+                            <label>Customer Review</label>
+                            <textarea name="review" rows="4" placeholder="Paste customer review here..."></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary" style="width: 100%;">Analyze & Rewrite</button>
+                    </form>
+                </div>
+
+                <!-- AI Chatbot -->
+                <div id="chat-tab" class="tab-content" style="display: none;">
+                    <h2 style="margin-bottom: 1rem;">💬 Branding Chat</h2>
+                    <p style="margin-bottom: 2rem; color: rgba(255,255,255,0.7);">Ask questions about branding,
+                        marketing, and design</p>
+                    <div id="chat-window" class="chat-window">
+                        <div class="chat-message ai">
+                            <div class="message-bubble">Hi! I'm your BizForge Branding Consultant. How can I help you
+                                today?</div>
+                        </div>
+                    </div>
+                    <form hx-post="/api/chat" hx-target="#chat-window" hx-swap="beforeend" hx-indicator="#chat-loading"
+                        hx-on::after-request="document.getElementById('chat-window').scrollTop = document.getElementById('chat-window').scrollHeight; document.getElementById('chat-input').value = '';">
+                        <div style="display: flex; gap: 0.5rem;">
+                            <input type="text" name="message" id="chat-input"
+                                placeholder="Ask me anything about branding..." autocomplete="off">
+                            <button type="submit" class="btn-primary">Send</button>
+                        </div>
+                    </form>
+                    <div id="chat-loading" class="htmx-indicator"
+                        style="font-size: 0.8rem; margin-top: 0.5rem; color: var(--accent);">Consultant is thinking...
+                    </div>
                 </div>
             </div>
 

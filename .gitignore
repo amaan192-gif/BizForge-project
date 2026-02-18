@@ -3,13 +3,22 @@ __pycache__/
 *.py[cod]
 *$py.class
 venv/
+.venv/
 .env
+
+# Diagnostic Scripts
+test_hf.py
+
+# IDEs
+.vscode/
+.idea/
 
 # FastAPI / Uvicorn
 .pytest_cache/
 
-# Frontend
-frontend/static/generated_logos/logo_*.png
+# Frontend (Ignore all generated assets)
+frontend/static/generated_logos/
+frontend/static/mockups/
 
 # OS
 .DS_Store
