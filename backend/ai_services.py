@@ -111,7 +111,7 @@ async def generate_design_system(idea: str):
         completion = groq_client.chat.completions.create(
             model="llama-3.1-8b-instant",
             messages=[
-                {"role": "system", "content": "Generate a design system. Return ONLY JSON with 'primary_color', 'secondary_color', 'accent_color', 'font_pairing'."},
+                {"role": "system", "content": "Generate a design system. Return ONLY JSON with these exact keys: 'primary_color', 'secondary_color', 'accent_color', 'font_pairing'."},
                 {"role": "user", "content": f"Brand Idea: {idea}"}
             ],
             response_format={"type": "json_object"}
